@@ -1,0 +1,17 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    // Disable Airbnb-specific rules unless need to support it
+    "id-length": 0,
+    "comma-dangle": 0
+  },
+  "globals": {
+    "__DEVELOPMENT__": true,
+    "__CLIENT__": true,
+    "__SERVER__": true,
+    "__DISABLE_SSR__": true,
+    "__DEVTOOLS__": true,
+    "__APP_CONFIG__": true,
+    "__APP_VERSION__": true,
+  }
+}

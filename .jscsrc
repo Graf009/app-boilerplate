@@ -1,0 +1,8 @@
+{
+  "preset": "airbnb",
+  "excludeFiles": ["node_modules/**", "public/**", "assets/**", "config/**"],
+  "esprima": "babel-jscs",
+  "verbose": true,
+
+  "validateQuoteMarks": null
+}

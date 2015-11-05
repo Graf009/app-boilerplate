@@ -1,0 +1,21 @@
+.header-navigation {
+  direction: ltr;
+  justify-content: flex-end;
+  width: 800px;
+}
+
+.header-navigation .mdl-navigation__link {
+  background-color: transparent !important;
+  border-bottom: 4px solid transparent;
+  color: #757575;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  height: 60px;
+  line-height: 68px;
+}
+
+.header-navigation .mdl-navigation__link:hover {
+  border-bottom: 4px solid #00bcd4;
+}

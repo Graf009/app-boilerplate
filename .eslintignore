@@ -1,0 +1,7 @@
+# Ignore setting files
+node_modules/
+config/
+public/
+dist/
+webpack.config.js
+devServer.js

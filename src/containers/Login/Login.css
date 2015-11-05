@@ -1,0 +1,29 @@
+.ReactModal__Overlay {
+  opacity: 0;
+  perspective: 600;
+  z-index: 11;
+}
+
+.ReactModal__Overlay--after-open {
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 1;
+  transition: opacity 150ms ease-out;
+}
+
+.ReactModal__Content {
+  transform: translate(-50%, -50%) scale(0.5) rotateX(-30deg);
+}
+
+.ReactModal__Content--after-open {
+  transform: translate(-50%, -50%) scale(1) rotateX(0deg);
+  transition: all 150ms ease-in;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+.ReactModal__Content--before-close {
+  transform: translate(-50%, -50%) scale(0.5) rotateX(30deg);
+  transition: all 150ms ease-in;
+}

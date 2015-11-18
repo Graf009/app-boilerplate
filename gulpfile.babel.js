@@ -12,7 +12,6 @@ const projectTitle = `${pjson.name}-${pjson.version}`;
 
 // css lint
 import stylelint from 'stylelint';
-import configSuitcss from 'stylelint-config-suitcss';
 import reporter from'postcss-reporter';
 
 // Load gulp plugins
@@ -75,7 +74,7 @@ gulp.task('eslint', () =>
 gulp.task('csslint', () =>
   gulp.src(`${paths.src}/**/*.css`)
     .pipe($.postcss([
-      stylelint(configSuitcss),
+      stylelint(),
       reporter({
         clearMessages: true,
       }),

@@ -6,8 +6,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Layout, Content } from 'react-mdl';
-import 'material-design-lite/material.min.js';
-import 'material-design-lite/material.min.css';
+import '_mdlCSS';
+import '_mdlJS';
 
 // import Drawer from './Drawer/Drawer';
 import Header from './Header/Header';

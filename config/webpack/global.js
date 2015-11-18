@@ -1,29 +1,36 @@
-/**
- * Created by Oleg Orlov on 07.09.15.
- */
+/*
+* @Author: Oleg Orlov
+* @Date:   2015-09-07 15:50:19
+*/
 
-var path         = require('path');
-var webpack      = require('webpack');
-var TextPlugin   = require('extract-text-webpack-plugin');
-var HtmlPlugin   = require('html-webpack-plugin');
+import path from'path';
+import webpack from 'webpack';
+import HtmlPlugin from 'html-webpack-plugin';
 
 // PostCSS
-var use = require('postcss-use');
-var autoprefixer = require('autoprefixer');
-var cssnano = require('cssnano');
+import use from 'postcss-use';
+import autoprefixer from 'autoprefixer';
+import cssnano from 'cssnano';
 
-module.exports = function(_path) {
-  var rootAssetPath = path.join(_path, 'public');
-  var pjson = require(_path + '/package.json');
-  var appNameVersion  = pjson.name + ' v' + pjson.version;
+export default function(_path) {
+  const pjson = require(_path + '/package.json');
+  const appNameVersion = `${pjson.name} v${pjson.version}`;
+  const dependencies = Object.keys(pjson.dependencies);
 
   return {
+    entry: {
+      vendors: [
+        ...dependencies,
+        '_mdlCSS',
+        '_mdlJS',
+      ],
+    },
 
     // output system
     output: {
       path: path.join(_path, 'public'),
-      filename: path.join('assets', 'js', '[name].[hash].js'),
-      chunkFilename: '[id].chunk.[chunkhash].js',
+      filename: path.join('assets', 'js', '[name].[chunkhash:6].js'),
+      chunkFilename: '[id].chunk.[chunkhash:6].js',
       publicPath: '/',
     },
 
@@ -34,12 +41,14 @@ module.exports = function(_path) {
       alias: {
         _components: path.join(_path, 'src', 'components'),
         _containers: path.join(_path, 'src', 'containers'),
-        _actions:    path.join(_path, 'src', 'actions'),
-        _reducers:   path.join(_path, 'src', 'reducers'),
-        _store:      path.join(_path, 'src', 'store'),
-        _config:     path.join(_path, 'src', 'config'),
-        _helpers:    path.join(_path, 'src', 'helpers'),
-        _utils:      path.join(_path, 'src', 'utils'),
+        _actions: path.join(_path, 'src', 'actions'),
+        _reducers: path.join(_path, 'src', 'reducers'),
+        _store: path.join(_path, 'src', 'store'),
+        _config: path.join(_path, 'src', 'config'),
+        _utils: path.join(_path, 'src', 'utils'),
+        _routes: path.join(_path, 'src', 'routes'),
+        _mdlCSS: 'material-design-lite/material.min.css',
+        _mdlJS: 'material-design-lite/material.min.js',
       },
     },
 
@@ -47,13 +56,16 @@ module.exports = function(_path) {
     plugins: [
       new webpack.NoErrorsPlugin(),
       new webpack.DefinePlugin({
-        __CLIENT__:   true,
+        __CLIENT__: true,
         __SERVER__: false,
         __APP_CONFIG__: JSON.stringify(process.env.APP_CONFIG || 'development'),
         __APP_VERSION__: JSON.stringify(appNameVersion),
       }),
-      new webpack.optimize.CommonsChunkPlugin('vendors', 'assets/js/vendors.[hash].js'),
-      new TextPlugin('assets/css/[name].[hash].css'),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendors',
+        filename: 'assets/js/vendors.[hash:6].js',
+        minChunks: Infinity,
+      }),
       new HtmlPlugin({
         title: appNameVersion,
         chunks: ['application', 'vendors'],
@@ -70,7 +82,7 @@ module.exports = function(_path) {
     // postcss
     postcss: {
       defaults: [use({ modules: '*'}), autoprefixer({ browsers: ['last 2 version'] })],
-      minify:   [use({ modules: '*'}), autoprefixer({ browsers: ['last 2 version'] }), cssnano()],
+      minify: [use({ modules: '*'}), autoprefixer({ browsers: ['last 2 version'] }), cssnano()],
     },
   };
-};
+}

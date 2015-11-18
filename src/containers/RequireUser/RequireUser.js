@@ -5,24 +5,24 @@
 
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { replaceState } from 'redux-router';
+import { replace } from 'redux-router/lib/actionCreators';
 
 class RequireUser extends Component {
   static propTypes = {
     user: PropTypes.object,
-    replaceState: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired,
     children: PropTypes.object.isRequired,
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.user && !nextProps.user) this.props.replace('/');
+  }
 
   static onEnter(getState) {
     return (nextState, replaceState) => {
       const { auth: { user }} = getState();
       if (!user) replaceState('/');
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.user && !nextProps.user) this.props.replaceState('/');
   }
 
   render() {
@@ -38,5 +38,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps, {
-    replaceState,
+    replace,
   })(RequireUser);

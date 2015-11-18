@@ -13,7 +13,6 @@ import api from './middleware/api';
 import persistedToken from './middleware/persistedToken';
 import checkToken from '_utils/checkToken';
 import rootReducer from '_reducers';
-import getRoutes from '../routes';
 
 const localStorage = compose(
   checkToken(),
@@ -21,7 +20,7 @@ const localStorage = compose(
 
 const finalCreateStore = compose(
   applyMiddleware(api, persistedToken(localStorage), thunk),
-  reduxReactRouter({ getRoutes, createHistory }),
+  reduxReactRouter({ createHistory }),
 )(createStore);
 
 export default function configureStore(initialState) {

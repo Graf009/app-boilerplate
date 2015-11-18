@@ -5,5 +5,5 @@ body {
 }
 
 .next .mdl-layout {
-  background: url("./wallpaper_1920x1080.jpg") center / cover;
+  background: url("wallpaper_1920x1080.jpg") center / cover;
 }

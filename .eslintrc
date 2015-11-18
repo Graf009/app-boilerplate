@@ -1,8 +1,8 @@
 {
+  "parser": "babel-eslint",
   "extends": "airbnb",
   "rules": {
     // Disable Airbnb-specific rules unless need to support it
-    "id-length": 0,
     "comma-dangle": 0
   },
   "globals": {

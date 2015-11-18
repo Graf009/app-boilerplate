@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { ReduxRouter } from 'redux-router';
 
 import DevTools from '_containers/DevTools/DevTools';
+import getRoutes from '_routes';
 
 export default class Root extends Component {
   static propTypes = {
@@ -19,7 +20,9 @@ export default class Root extends Component {
     return (
       <Provider store={store}>
         <div>
-          <ReduxRouter />
+          <ReduxRouter>
+            { getRoutes(store) }
+          </ReduxRouter>
           <DevTools />
         </div>
       </Provider>

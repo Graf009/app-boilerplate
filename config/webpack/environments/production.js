@@ -3,34 +3,32 @@
 * @Date:   2015-09-07 15:17:19
 */
 
-var path         = require('path');
-var webpack      = require('webpack');
-var TextPlugin   = require('extract-text-webpack-plugin');
+import path from 'path';
+import webpack from 'webpack';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
-module.exports = function(_path) {
-  var rootAssetPath = path.join(_path, 'public');
-  var rootSourcePath = path.join(_path, 'src');
-  var dependencies  = Object.keys(require(_path + '/package.json').dependencies);
+export default function(_path) {
+  const rootAssetPath = path.join(_path, 'public');
+  const rootSourcePath = path.join(_path, 'src');
 
-  var FILE_LOADER_STRING = 'file?context=' + rootAssetPath + '&name=assets/static/[ext]/[name].[hash].[ext]';
-  var IMG_OPT_STRING = 'image-webpack?bypassOnDebug&optimizationLevel=7';
+  const FILE_LOADER_STRING = `file?context=${rootAssetPath}&name=assets/static/[ext]/[name].[hash:6].[ext]`;
+  const IMG_OPT_STRING = 'image-webpack?bypassOnDebug&optimizationLevel=7';
 
   return {
     context: _path,
     debug: false,
-    devtool: 'cheap-source-map',
+    devtool: 'source-map',
     entry: {
-      application: _path + '/src/index.js',
-      vendors: dependencies,
+      application: rootSourcePath,
     },
     module: {
       loaders: [
         { test: /\.js$/, loader: 'babel', include: rootSourcePath },
-        { test: /\.css$/, loader: TextPlugin.extract('css?importLoaders=1!postcss?pack=minify') },
+        { test: /\.css$/, loader: ExtractTextPlugin.extract('css?sourceMap&importLoaders=1!postcss?pack=minify') },
         { test: /\.(ttf|eot|woff|woff2|ico)$/i, loader: FILE_LOADER_STRING },
-        { test: /\.(png|svg)$/i, loaders: [FILE_LOADER_STRING, IMG_OPT_STRING + '&interlaced=true'] },
-        { test: /\.(gif)$/i, loaders: [FILE_LOADER_STRING, IMG_OPT_STRING + '&interlaced=false'] },
-        { test: /\.(jpe?g)$/i, loaders: [FILE_LOADER_STRING, IMG_OPT_STRING + '&interlaced=false&progressive=true'] },
+        { test: /\.(png|svg)$/i, loaders: [FILE_LOADER_STRING, `${IMG_OPT_STRING}&interlaced=true`] },
+        { test: /\.(gif)$/i, loaders: [FILE_LOADER_STRING, `${IMG_OPT_STRING}&interlaced=false`] },
+        { test: /\.(jpe?g)$/i, loaders: [FILE_LOADER_STRING, `${IMG_OPT_STRING}&interlaced=false&progressive=true`] },
       ],
     },
     plugins: [
@@ -42,6 +40,7 @@ module.exports = function(_path) {
         __DEVELOPMENT__: false,
         __DEVTOOLS__: false,
       }),
+      new ExtractTextPlugin('assets/css/[name].[contenthash:6].css'),
 
       // optimizations
       new webpack.optimize.DedupePlugin(),
@@ -55,4 +54,4 @@ module.exports = function(_path) {
       }),
     ],
   };
-};
+}
